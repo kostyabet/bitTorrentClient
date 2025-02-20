@@ -1,0 +1,8 @@
+# build files
+dist/
+
+# temp files
+node_modules/
+
+# setup files
+package-lock.json

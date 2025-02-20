@@ -28,6 +28,7 @@ jobs:
                 run: npx tsc
 
     test:
+        needs: build
         strategy:
             matrix:
                 os: [macos-latest, ubuntu-22.04, windows-latest]

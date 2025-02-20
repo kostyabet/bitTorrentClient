@@ -22,7 +22,7 @@ export class Decoder {
      * 
      * @returns An object representing the bencoded data.
     */
-    decode() {
+    public decode() {
         const char = this.peek();
         
         if (Tokens.digits.includes(char))
@@ -52,7 +52,7 @@ export class Decoder {
     /**
      * Return the next character from the bencoded data or None.
     */
-    peek() : number {
+    private peek() : number {
         if (this._index >= this._data.length)
             return NaN;
         return this._data[this._index]
@@ -61,7 +61,7 @@ export class Decoder {
     /**
      * Read (and therefore consume) the next character from the data.
     */
-    consume() {
+    private consume() {
         this._index++;
     }
 
@@ -70,7 +70,7 @@ export class Decoder {
      * 
      * @length number of bytes.
     */
-    read(length: number) : Int8Array {
+    private read(length: number) : Int8Array {
         if (this._index + length > this._data.length)
             throw new Error(`Cannot read ${length} bytes from current position ${this._index}!`);
         const data = this._data.subarray(this._index, this._index + length);
@@ -83,7 +83,7 @@ export class Decoder {
      * 
      * @tokens stop token.
     */
-    readUntil(token: number) : number {
+    private readUntil(token: number) : number {
         let num : number = 0;
         do {
             num = num * 10 + (this.peek() - encoder.encode('0')[0]);
@@ -93,19 +93,30 @@ export class Decoder {
         return num;
     }
     
-    decodeInt() : number {
+    private decodeInt() : number {
         return this.readUntil(Tokens.end)
     }
 
-    decodeList() {
-
+    private decodeList() : any[] {
+        const res = [];
+        while (this.peek() != Tokens.end)
+            res.push(this.decode())
+        this.consume();
+        return res;
     }
 
-    decodeDict() {
-
+    private decodeDict() {
+        const map = new Map<any, any>();
+        while (this.peek() != Tokens.end) {
+            const key = this.decode();
+            const obj = this.decode();
+            map.set(key, obj);
+        }
+        this.consume();
+        return map;
     }
 
-    decodeString() {
+    private decodeString() {
         const bytesToRead = this.readUntil(Tokens.strSeparator);
         const data = this.read(bytesToRead);
         return data;

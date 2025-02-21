@@ -1,6 +1,6 @@
 import { Decoder } from "./beencoding/decoder"
-
 import * as fs from 'fs';
+import getHash from "./tracker/getHash";
 
 const filePath = "./testFiles/aida.torrent"
 
@@ -12,5 +12,5 @@ fs.readFile(filePath, (err, data) => {
 
     const binaryString = new Decoder(new Int8Array(data)).decode();//Array.from(new Uint8Array(data))
 
-    console.log('Binary data:', binaryString);
+    getHash(binaryString.get('info'))
 })

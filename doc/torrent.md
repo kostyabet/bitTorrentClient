@@ -8,8 +8,8 @@ In torrent file we can see next fields:
     + Exist two types of generating peer_id:
         - `Azureus` style: 
             ``` py
-                >>> '-PC0001-' + ''.join([str(random.randint(0, 9)) for _ in range(12)])
-                '-PC0001-478269329936'
+            >>> '-PC0001-' + ''.join([str(random.randint(0, 9)) for _ in range(12)])
+            '-PC0001-478269329936'
             ```
  - `uploader` - count of sending bytes.
  - `downloaded` - count of receiving bytes.

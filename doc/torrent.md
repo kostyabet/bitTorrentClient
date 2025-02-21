@@ -5,8 +5,8 @@ In torrent file we can see next fields:
  - `info_hash` - SHA-1 hash map with info in torrent file.
  - `peer_id` - unic ID, generated for current user.
     + __size == 20 bytes__
-    + Exist two types of generating peer_id:
-        - `Azureus` style: 
+    + <a href="https://wiki.theory.org/BitTorrentSpecification#peer_id" alt="read more">Exist two types of generating peer_id:</a>
+        - `Azureus` style:
             ``` py
             >>> '-PC0001-' + ''.join([str(random.randint(0, 9)) for _ in range(12)])
             '-PC0001-478269329936'

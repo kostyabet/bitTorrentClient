@@ -1,5 +1,6 @@
 import { Tokens } from "./tokens";
 const encoder = new TextEncoder();
+const decoder = new TextDecoder();
 
 /**
  * Decodes a bencoded sequence of bytes.
@@ -116,9 +117,9 @@ export class Decoder {
         return map;
     }
 
-    private decodeString() {
+    private decodeString() : string {
         const bytesToRead = this.readUntil(Tokens.strSeparator);
         const data = this.read(bytesToRead);
-        return data;
+        return decoder.decode(data);
     }
 }

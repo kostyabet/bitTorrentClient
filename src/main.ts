@@ -1,36 +1,16 @@
-import { Encoder } from "./beencoding/encoder"
+import { Decoder } from "./beencoding/decoder"
 
-console.log(new Encoder('Hello').encode());
-/* 
-    Uint8Array(7) [
-        53,  58,  72, 101,
-        108, 108, 111
-    ]
-*/
+import * as fs from 'fs';
 
-console.log(new Encoder(123).encode());
-/* 
-    Uint8Array(5) [ 105, 49, 50, 51, 101 ]
-*/
+const filePath = "./testFiles/aida.torrent"
 
-console.log(new Encoder(['123123', 123, '123']).encode());
-/* 
-    Uint8Array(20) [
-        108, 54,  58, 49, 50,  51,  49,
-        50, 51, 105, 49, 50,  51, 101,
-        51, 58,  49, 50, 51, 101
-    ]
-*/
+fs.readFile(filePath, (err, data) => {
+    if (err) {
+        console.error('Error while reading', err);
+        return;
+    }
 
-console.log(new Encoder(new Map<any,any>([
-    ['hello', 'hello'],
-    ['hello', 'hello'],
-])).encode());
-/* 
-    Uint8Array(16) [
-        100,  53,  58, 104, 101,
-        108, 108, 111,  53,  58,
-        104, 101, 108, 108, 111,
-        101
-    ]
-*/
+    const binaryString = new Decoder(new Int8Array(data)).decode();//Array.from(new Uint8Array(data))
+
+    console.log('Binary data:', binaryString);
+})

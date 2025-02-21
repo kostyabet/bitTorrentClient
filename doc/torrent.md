@@ -7,7 +7,7 @@ In torrent file we can see next fields:
     + __size == 20 bytes__
     + Exist two types of generating peer_id:
         - `Azureus` style: 
-            ```
+            ``` py
                 >>> '-PC0001-' + ''.join([str(random.randint(0, 9)) for _ in range(12)])
                 '-PC0001-478269329936'
             ```

@@ -1,6 +1,6 @@
 import { Decoder } from "./beencoding/decoder"
+import { Tracker } from "./tracker/tracker";
 import * as fs from 'fs';
-import getHash from "./tracker/getHash";
 
 const filePath = "./testFiles/aida.torrent"
 
@@ -10,7 +10,6 @@ fs.readFile(filePath, (err, data) => {
         return;
     }
 
-    const binaryString = new Decoder(new Int8Array(data)).decode();//Array.from(new Uint8Array(data))
-
-    getHash(binaryString.get('info'))
+    const binaryString = new Decoder(new Int8Array(data)).decode();
+    const tracker = binaryString instanceof Map ? new Tracker(binaryString).connect() : null;
 })

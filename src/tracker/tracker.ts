@@ -1,6 +1,8 @@
 import calculatePeerId from './calcPir'
 import getHash from "./getHash";
 import getBytesLen from './getBytesLen';
+import { Params } from './interfaces';
+import urlencode from './urlencode';
 
 /**
  * Represents the connection to a tracker for a given Torrent that is either under download or seeding state.
@@ -27,14 +29,19 @@ export class Tracker {
      * @param downloaded: The total number of bytes downloaded.
      */
     public async connect(first : boolean = true, uploaded : number = 0, downloaded : number = 0) {
-        const params = {
+        let params : Params = {
             'info_hash': getHash(this._torrent.get('info')),
             'peer_id': this._peerID,
             'port': 6889,
             'uploaded': uploaded,
             'downloaded': downloaded,
             'left': getBytesLen(this._torrent.get('info')) - downloaded,
-            'compact': 1
+            'compact': 1, 
         }
+        if (first)
+            params['event'] = 'started';
+        const url = this._torrent.get('announce') + '?' + urlencode(params)
+
+        // create request
     }
 }

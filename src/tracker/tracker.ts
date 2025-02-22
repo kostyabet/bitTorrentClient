@@ -3,6 +3,7 @@ import getHash from "./getHash";
 import getBytesLen from './getBytesLen';
 import { Params } from './interfaces';
 import urlencode from './urlencode';
+import { httpClient } from '../httpclient/client';
 
 /**
  * Represents the connection to a tracker for a given Torrent that is either under download or seeding state.
@@ -16,7 +17,7 @@ export class Tracker {
     public constructor (torrent : Map<any, any>) {
         this._torrent = torrent;
         this._peerID = calculatePeerId();
-        this._httpClient = null;
+        this._httpClient = new httpClient();
     }
 
     /**
@@ -42,6 +43,6 @@ export class Tracker {
             params['event'] = 'started';
         const url = this._torrent.get('announce') + '?' + urlencode(params)
 
-        // create request
+        console.log(await this._httpClient.get(url))
     }
 }

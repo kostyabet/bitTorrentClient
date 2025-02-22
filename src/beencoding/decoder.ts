@@ -117,7 +117,7 @@ export class Decoder {
         return map;
     }
 
-    private decodeString() : string {
+    private decodeString() : any {
         const bytesToRead = this.readUntil(Tokens.strSeparator);
         const data = this.read(bytesToRead);
         return decoder.decode(data);

@@ -1,4 +1,5 @@
 export default function(info : Map<any, any>) : number {
+    if (info == null) throw Error('Error!')
     if (info.has('length'))
         return info.get('length')
     
